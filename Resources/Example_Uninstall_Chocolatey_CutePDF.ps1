@@ -1,17 +1,17 @@
-Configuration InstallJre8
+Configuration UninstallCutePDF
 {
 
-    Import-DSCResource -ModuleName NuGetPackage
+    Import-DSCResource -ModuleName OneGetPackage
 
-    NuGetPackage Jre8
+    OneGetPackage CutePDF
     {
-        Name = 'Jre8'
+        Name = 'CutePDF'
         Source = 'Chocolatey'
-        Ensure = 'Present'
+        Ensure = 'Absent'
     }
 }
 
 $MOFPath = 'C:\MOF'
 If (!(Test-Path $MOFPath)){New-Item -Path $MOFPath -ItemType Directory}
-InstallJre8 -OutputPath $MOFPath
+UninstallCutePDF -OutputPath $MOFPath
 Start-DscConfiguration -Path $MOFPath -Wait -Force -Verbose
