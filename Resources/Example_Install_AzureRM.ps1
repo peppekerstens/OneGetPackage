@@ -3,10 +3,16 @@ Configuration InstallAzureRM
 
     Import-DSCResource -ModuleName OneGetPackage
 
+    OneGetPackageProvider NuGet
+    {
+        Name = 'NuGet'
+    }
+
     OneGetPackage AzureRM
     {
         Name = 'AzureRM'
         Ensure = 'Present'
+        DependsOn = '[OneGetPackageProvider]NuGet'
     }
 }
 

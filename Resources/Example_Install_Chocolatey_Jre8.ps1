@@ -1,9 +1,20 @@
 Configuration InstallJre8
 {
 
-    Import-DSCResource -ModuleName NuGetPackage
+    Import-DSCResource -ModuleName OneGetPackage
 
-    NuGetPackage Jre8
+    OneGetPackageProvider NuGet
+    {
+        Name = 'NuGet'
+    }
+
+    OneGetPackageProvider Chocolatey
+    {
+        Name = 'Chocolatey'
+        DependsOn = '[OneGetPackageProvider]NuGet'
+    }
+    
+    OneGetPackage Jre8
     {
         Name = 'Jre8'
         Source = 'Chocolatey'

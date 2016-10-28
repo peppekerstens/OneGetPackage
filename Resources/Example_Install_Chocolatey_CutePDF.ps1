@@ -3,11 +3,23 @@ Configuration InstallCutePDF
 
     Import-DSCResource -ModuleName OneGetPackage
 
+    OneGetPackageProvider NuGet
+    {
+        Name = 'NuGet'
+    }
+
+    OneGetPackageProvider Chocolatey
+    {
+        Name = 'Chocolatey'
+        DependsOn = '[OneGetPackageProvider]NuGet'
+    }
+
     OneGetPackage CutePDF
     {
         Name = 'CutePDF'
         Source = 'Chocolatey'
         Ensure = 'Present'
+        DependsOn = '[OneGetPackageProvider]Chocolatey'
     }
 }
 
