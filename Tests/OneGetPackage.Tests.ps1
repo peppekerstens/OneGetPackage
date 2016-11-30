@@ -13,14 +13,14 @@ $ErrorActionPreference = 'stop'
 Set-StrictMode -Version latest
 
 Describe 'Get-TargetResource' {
-    Context "All Reboots Are Required" {
-        # Used by ComponentBasedServicing
-        Mock Get-ChildItem {
-            return @{ Name = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending' }
-        } -ParameterFilter { $Path -eq 'hklm:SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\' }  -ModuleName "MSFT_xPendingReboot" -Verifiable
+    Context "Package not installed, mocking Nuget as a package" {
+        # Used by to check which windows version it is run on
+        Mock Get-WinVersion {
+            return "6.3"
+        }
 
         # Used by WindowsUpdate
-        Mock Get-ChildItem {
+        Mock Get-Package {
             return @{ Name = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired' } 
         } -ParameterFilter { $Path -eq 'hklm:SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\' }  -ModuleName "MSFT_xPendingReboot" -Verifiable
 
